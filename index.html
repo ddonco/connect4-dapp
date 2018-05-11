@@ -1,0 +1,169 @@
+<!-- Fork of an original work by Coder on the Road (https://codepen.io/coderontheroad/pen/GdxEo)-->
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Connect Four with JS</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+<h2 id="networkWarning" class="warning"></h2>
+<div>
+  <button id="buttonRequest" class="btn-request">Request Tokens</button>
+  <button id="buttonPlay" class="btn-play">Play</button>
+  <h1>Connect 4</h1>
+  <div style="clear: both;"></div>
+</div>
+<p class="info">Play connect 4 against a simple AI! The game requires payment with Connect4 (CT4) tokens to play. The CT4 token is only available on the Ropsten test network. One game costs one CT4 token. If you don't have any tokens, no worries, just request some by clicking the "Request Tokens" button! This game requires MetaMask installed in your browser.</p>
+<p class="info">Token Contract Address: {{.}}</p>
+
+<div>
+  <table class="center">
+    <thead>
+      <tr>
+        <th class="score">Player</th>
+        <th class="score">|</th>
+        <th class="score">Computer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id= "playerScore" class="score">0</td>
+        <td class="score"></td>
+        <td id="computerScore" class="score">0</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="game-base">
+  <div id="game-table">
+    <table class="center">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- end base -->
+  
+  
+	<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+	<script src="js/index.js"></script>
+    <!-- <script  src="js/index.js"></script> -->
+    <!-- <script type="text/javascript">
+    	
+    	if (typeof web3 !== 'undefined') {
+  			web3 = new Web3(web3.currentProvider);
+		} else {
+  			// set the provider you want from Web3.providers
+  			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+		}
+
+
+		web3.version.getNetwork((err, netId) => {
+  			switch (netId) {
+    			case "1":
+			      console.log('This is mainnet');
+			      break
+			    case "2":
+			      console.log('This is the deprecated Morden test network.');
+			      break
+			    case "3":
+			      console.log('This is the ropsten test network.');
+			      break
+			    case "4":
+			      console.log('This is the Rinkeby test network.');
+			      break
+			    case "42":
+			      console.log('This is the Kovan test network.');
+			      break
+			    default:
+			      console.log('This is an unknown network.');
+  			}
+		});
+
+
+		setInterval(function(){
+			web3.eth.getBalance(web3.eth.accounts[0], (error, result) => {
+    			if(!error)
+        			document.getElementById("balance").innerText = JSON.stringify(result);
+    			else
+        			console.error(error);
+			});
+		}, 1000);
+
+
+
+    </script> -->
+
+
+
+
+</body>
+
+</html>
