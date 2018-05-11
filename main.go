@@ -1,12 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"math/big"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -16,8 +18,13 @@ import (
 
 const key = `{"address":"6f3ff3e713372fabadb8be469861b9edde95809f","crypto":{"cipher":"aes-128-ctr","ciphertext":"839688dd222e2854c266938e092b63533a27bf4f56eaed7b79e586c95195529b","cipherparams":{"iv":"141e4c5fd69811383b41381b8ad2727f"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"f766a9c6856a46ad04ea09343239ffb5c907aa1e87fdae96b1021f7b7b12747d"},"mac":"81933b20d57ffef44d08a4920bd7ba563efc920afe1346ce9b8f1c35693a1f69"},"id":"24689da4-4755-4084-8d06-aea9bb9477ca","version":3}`
 const tokenAddress = "0x52f2b1aa9a8aa1780f03c99f6cbe01720840c72a"
+const credentialFile = "../connect4_credentials.json"
 
 var tpl *template.Template
+
+type Credential struct {
+	Password string `json:"password"`
+}
 
 type TokenSession struct {
 	Contract     *SimpleToken
@@ -46,6 +53,8 @@ func index(res http.ResponseWriter, req *http.Request) {
 }
 
 func tokenSession() TokenSession {
+	var credential Credential
+
 	conn, err := ethclient.Dial("https://ropsten.infura.io/FVaBfad4qY889MogGrbu")
 	if err != nil {
 		log.Fatalf("Failed to connect to Ethereum network: %v", err)
@@ -56,7 +65,20 @@ func tokenSession() TokenSession {
 		log.Fatalf("Failed to instantiate contract: %v", err)
 	}
 
-	auth, err := bind.NewTransactor(strings.NewReader(key), "password")
+	pwdFile, err := os.Open(credentialFile)
+	if err != nil {
+		log.Fatalln("Failed to open credentials file: %v", err)
+	}
+	defer pwdFile.Close()
+
+	bsCredential, err := ioutil.ReadAll(pwdFile)
+	if err != nil {
+		fmt.Println(err)
+	}
+	json.Unmarshal(bsCredential, &credential)
+	fmt.Println(credential.Password)
+
+	auth, err := bind.NewTransactor(strings.NewReader(key), credential.Password)
 	if err != nil {
 		log.Fatalf("Failed to create authorized transactor: %v", err)
 	}
